@@ -1,0 +1,142 @@
+.cards {
+  display: grid;
+  grid-gap: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  margin-top: 20px;
+
+  .addNewCard {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    height: 70px;
+    margin-left: 12px;
+
+    color: #666;
+  }
+
+  .cardEditModal {
+    display: block;
+
+    width: 320px;
+    padding: 8px;
+
+    background-color: #eee;
+    border-radius: 8px;
+
+    .cardHeader {
+      padding-left: 6px;
+      font-size: 20px;
+    }
+
+    .cardForm {
+      .inputSection {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 12px;
+
+        input {
+          padding: 6px;
+          border-radius: 4px;
+        }
+      }
+
+      .info {
+        margin-top: 12px;
+        padding: 0 6px;
+
+        font-size: 12px;
+        font-weight: 100;
+        color: grey;
+
+        a {
+          text-decoration: underline;
+        }
+      }
+
+      .dropdownLinks {
+        margin-top: 16px;
+
+        .dropdownLinksHeader {
+          padding-left: 6px;
+          font-size: 16px;
+        }
+
+        .dropdownList {
+          overflow-y: scroll;
+          max-height: 320px;
+
+          .dropdownItem {
+            position: relative;
+
+            .removeIcon {
+              pointer-events: none;
+            }
+
+            .removeButton {
+              cursor: pointer;
+
+              position: absolute;
+              top: 2px;
+              right: 2px;
+
+              display: none;
+              align-items: center;
+
+              padding: 4px 2px;
+
+              color: red;
+
+              background-color: #ddd;
+              border-radius: 2px;
+            }
+
+            &:hover {
+              .removeButton {
+                display: flex;
+              }
+            }
+          }
+        }
+
+        .handlerSection {
+          margin-top: 12px;
+
+          .addItemButton {
+            width: 100%;
+            padding: 6px 0;
+
+            color: #fff;
+
+            background-color: #3775a4;
+            border-radius: 4px;
+          }
+
+          .dropdownItemChangeButtons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+
+            button {
+              padding: 6px;
+              color: #fff;
+              border-radius: 4px;
+
+              &.removeItemButton {
+                background-color: #ad4444;
+              }
+
+              &.applyItemButton {
+                background-color: #297a29;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

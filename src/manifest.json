@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "NewTab",
+  "short_name": "NewTab",
+  "description": "Замена стандартной новой вкладки",
+  "version": "1.1.0",
+  "permissions": [
+    "system.display",
+    "tabs",
+    "bookmarks",
+    "webRequest",
+    "*://*/",
+    "cdn.weatherapi.com/*",
+    "//cdn.weatherapi.com/*",
+    "notifications",
+    "geolocation",
+    "history"
+  ],
+
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  }
+}

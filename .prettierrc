@@ -1,0 +1,19 @@
+{
+  "trailingComma": "all",
+  "arrowParens": "avoid",
+  "singleQuote": true,
+  "printWidth": 80,
+  "useTabs": false,
+  "tabWidth": 2,
+  "semi": false,
+  "importOrder": [
+    "store",
+    "hooks",
+    "Components",
+    "types",
+    "module.scss",
+    "assets",
+    "^[./]"
+  ],
+  "importOrderSortSpecifiers": true
+}

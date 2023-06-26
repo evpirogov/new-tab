@@ -1,0 +1,23 @@
+.battery {
+  position: relative;
+  height: 100%;
+
+  .batteryImage {
+    position: relative;
+    z-index: 1;
+    height: 26px;
+    margin: 7px auto;
+  }
+
+  .batteryFill {
+    position: absolute;
+
+    /* background-color: lawngreen; */
+    z-index: 0;
+    bottom: 8px;
+    left: 1px;
+
+    width: 12px;
+    height: 23px;
+  }
+}

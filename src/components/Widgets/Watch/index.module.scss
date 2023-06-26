@@ -1,0 +1,87 @@
+@font-face {
+  font-family: TimeFont;
+  src: url('../../../assets/fonts/time.ttf') format('truetype');
+}
+
+.watch {
+  font-family: TimeFont, sans-serif;
+  font-size: 34px;
+  color: #666;
+}
+
+.screensaver {
+  cursor: default;
+
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
+  font-family: TimeFont, sans-serif;
+  font-size: 24vw;
+  color: #fff;
+
+  perspective: 1000px;
+
+  /* background-color: #000; */
+
+  .layersContainer {
+    transform-style: preserve-3d;
+    transform: rotateX(var(--move-x)) rotateY(var(--move-y));
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    .layersItem {
+      position: absolute;
+      inset: -10vw;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-position: center;
+      background-size: cover;
+    }
+
+    .layer1 {
+      pointer-events: none;
+      transform: translateZ(-60px) scale(1.06);
+    }
+
+    .layer2 {
+      pointer-events: none;
+      transform: translateZ(80px) scale(0.88);
+    }
+
+    .layer3 {
+      transform: translateZ(180px) scale(0.8);
+      display: flex;
+      align-items: center;
+
+      .heroContent {
+        cursor: pointer;
+      }
+    }
+
+    .layer4 {
+      pointer-events: none;
+      transform: translateZ(190px) scale(0.9);
+    }
+
+    .layer5 {
+      pointer-events: none;
+      transform: translateZ(300px) scale(0.5);
+    }
+
+    .layer6 {
+      pointer-events: none;
+      transform: translateZ(380px);
+      opacity: 0.3;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.weather {
+  display: flex;
+  flex-direction: column;
+
+  .temperature {
+    height: 10px;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8px;
+  }
+
+  .weatherImage {
+    width: 30px;
+    height: 80%;
+  }
+}
