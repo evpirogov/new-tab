@@ -1,5 +1,5 @@
 import { CardStackPlusIcon } from '@radix-ui/react-icons'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   addCard,
   editCard,
@@ -9,8 +9,8 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { Card, CardForm } from './Components'
 import type { ICard } from './types'
-import { Modal } from '../../Modal'
 import styles from './index.module.scss'
+import { Modal } from '../../Modal'
 
 export const Cards = () => {
   const dispatch = useAppDispatch()
@@ -19,6 +19,35 @@ export const Cards = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [editableCard, setEditableCard] = useState<ICard | undefined>(undefined)
   const [formType, setFormType] = useState<'edit' | 'create'>('create')
+
+  const cardContainer = useRef<HTMLDivElement>(null)
+  const [cardsGridGapSize, setCardsGridGapSize] = useState('32px')
+
+  useEffect(() => {
+    const calculateGapSize = () => {
+      if (!cardContainer.current) return
+
+      const cardSize = 200
+      const minGap = 20
+      const containerWidth = cardContainer.current.clientWidth
+      const availableNumberOfCards = Math.floor(
+        (containerWidth + minGap) / (cardSize + minGap),
+      )
+      const availableSpaceForGaps =
+        containerWidth - availableNumberOfCards * cardSize
+      const singleGapSize = Math.floor(
+        availableSpaceForGaps / (availableNumberOfCards - 1),
+      )
+
+      setCardsGridGapSize(`${singleGapSize}px`)
+    }
+
+    window.addEventListener('resize', calculateGapSize)
+
+    return () => {
+      window.removeEventListener('resize', calculateGapSize)
+    }
+  }, [])
 
   const openModalForCreatingCard = () => {
     setFormType('create')
@@ -55,7 +84,11 @@ export const Cards = () => {
   }
 
   return (
-    <div className={styles.cards}>
+    <div
+      className={styles.cards}
+      ref={cardContainer}
+      style={{ gap: cardsGridGapSize }}
+    >
       {cards.map(
         ({ id, mainHref, mainImageUrl, mainImageSize, dropdownLinks }) => (
           <Card
