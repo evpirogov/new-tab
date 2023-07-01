@@ -1,6 +1,5 @@
-import DevSkeleton from './components/DevSkeleton'
 import Footer from './components/Footer'
-import { Cards, TopLinks } from './components/Widgets'
+import { Cards, TaskManager, TopLinks } from './components/Widgets'
 import Layout from './components/_Layout'
 
 const App = () => {
@@ -9,10 +8,7 @@ const App = () => {
       <Footer />
       <TopLinks />
       <Cards />
-      <DevSkeleton
-        name="Task manager / Kanban board"
-        style={{ minHeight: '320px', marginTop: '20px' }}
-      />
+      <TaskManager />
     </Layout>
   )
 }
