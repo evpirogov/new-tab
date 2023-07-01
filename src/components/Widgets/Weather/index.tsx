@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import styles from './index.module.scss'
+import weatherIconPlaceholder from '../../../assets/weather/weather_placeholder.png'
 
 interface TWeatherParams {
   last_updated_epoch: number
@@ -75,18 +76,20 @@ export const Weather = () => {
     getWeather()
   }, [])
 
-  return weatherParams ? (
+  return (
     <div className={styles.weather}>
       <img
         className={styles.weatherImage}
         src={
-          `https:${weatherParams.condition.icon}` ||
-          `http:${weatherParams.condition.icon}`
+          weatherParams
+            ? `https:${weatherParams.condition.icon}` ||
+              `http:${weatherParams.condition.icon}`
+            : weatherIconPlaceholder
         }
       />
       <p className={styles.temperature}>
-        {Math.round(weatherParams.temp_c)} °C
+        {weatherParams ? `${Math.round(weatherParams.temp_c)} °C` : 'loading'}
       </p>
     </div>
-  ) : null
+  )
 }
