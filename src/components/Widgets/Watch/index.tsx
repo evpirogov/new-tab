@@ -1,55 +1,59 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useAudio } from '../../../hooks/useAudio'
 import styles from './index.module.scss'
-import { Forest } from './Forest'
+import forestAudio from '../../../assets/watch/european-forest-ambience.wav'
+import { Screensaver } from './Screensaver'
 
 export const Watch = () => {
+  const { toggleAudio } = useAudio(forestAudio)
+
   const [time, setTime] = useState('')
   const [screensaverActive, setScreensaverActive] = useState(false)
 
-  const checkTime = (i: string) => (Number(i) < 10 ? `0${i}` : i)
+  const openScreensaver = useCallback(() => {
+    setScreensaverActive(true)
+    document.documentElement.requestFullscreen()
+  }, [])
+  const closeScreensaver = useCallback(() => {
+    setScreensaverActive(false)
+    document.exitFullscreen()
+  }, [])
 
-  const updateTime = () => {
+  const formatTime = useCallback(
+    (i: string) => (Number(i) < 10 ? `0${i}` : i),
+    [],
+  )
+
+  const updateTime = useCallback(() => {
     const currentTime = new Date()
 
-    const currentHour = checkTime(currentTime.getHours().toString())
-    const currentMinute = checkTime(currentTime.getMinutes().toString())
+    const currentHour = formatTime(currentTime.getHours().toString())
+    const currentMinute = formatTime(currentTime.getMinutes().toString())
 
     setTime(`${currentHour}:${currentMinute}`)
-  }
-
-  const memoizedUpdateTime = useCallback(updateTime, [])
+  }, [formatTime])
 
   useEffect(() => {
-    memoizedUpdateTime()
+    updateTime()
 
     const interval = setInterval(() => {
-      memoizedUpdateTime()
+      updateTime()
     }, 200)
     return () => clearInterval(interval)
-  }, [memoizedUpdateTime])
+  }, [updateTime])
 
   return (
     <>
-      <button
-        className={styles.watch}
-        onClick={() => {
-          setScreensaverActive(true)
-          document.documentElement.requestFullscreen()
-        }}
-      >
+      <button className={styles.watch} onClick={openScreensaver}>
         {time}
       </button>
 
       {screensaverActive && (
-        <div
-          className={styles.screensaver}
-          onClick={() => {
-            setScreensaverActive(false)
-            document.exitFullscreen()
-          }}
-        >
-          <Forest time={time} />
-        </div>
+        <Screensaver
+          toggleAudio={toggleAudio}
+          closeScreensaver={closeScreensaver}
+          time={time}
+        />
       )}
     </>
   )
