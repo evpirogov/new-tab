@@ -26,9 +26,10 @@ export const Cards = () => {
   useEffect(() => {
     const calculateGapSize = () => {
       if (!cardContainer.current) return
-
       const cardSize = 200
       const minGap = 20
+      const maxRowGap = 40
+
       const containerWidth = cardContainer.current.clientWidth
       const availableNumberOfCards = Math.floor(
         (containerWidth + minGap) / (cardSize + minGap),
@@ -39,9 +40,13 @@ export const Cards = () => {
         availableSpaceForGaps / (availableNumberOfCards - 1),
       )
 
-      setCardsGridGapSize(`${singleGapSize}px`)
+      const rowGap = singleGapSize > maxRowGap ? maxRowGap : singleGapSize
+      const colGap = singleGapSize
+
+      setCardsGridGapSize(`${rowGap}px ${colGap}px`)
     }
 
+    calculateGapSize()
     window.addEventListener('resize', calculateGapSize)
 
     return () => {
