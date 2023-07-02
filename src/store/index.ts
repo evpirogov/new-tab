@@ -11,14 +11,17 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import cards from './cardSlice'
+import modes from './modeSlice'
 
 const rootReducer = combineReducers({
   cards,
+  modes,
 })
 
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['modes'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

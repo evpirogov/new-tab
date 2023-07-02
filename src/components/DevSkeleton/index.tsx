@@ -1,3 +1,5 @@
+import { selectMode } from '../../store/modeSlice'
+import { useAppSelector } from '../../hooks'
 import styles from './index.module.scss'
 
 type SkeletonProps = {
@@ -6,10 +8,14 @@ type SkeletonProps = {
 }
 
 const DevSkeleton = ({ name, style }: SkeletonProps) => {
+  const { devMode } = useAppSelector(state => selectMode(state))
+
   return (
-    <div className={styles.container} style={style}>
-      {name}
-    </div>
+    devMode && (
+      <div className={styles.container} style={style}>
+        {name}
+      </div>
+    )
   )
 }
 
