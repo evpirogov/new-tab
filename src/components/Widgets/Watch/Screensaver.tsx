@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import styles from './index.module.scss'
 import imgLayer1 from '../../../assets/watch/layer-1.jpg'
 import imgLayer2 from '../../../assets/watch/layer-2.png'
@@ -16,7 +16,7 @@ export const Screensaver = ({
   toggleAudio,
   closeScreensaver,
 }: TProps) => {
-  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 })
+  const layersContainerRef = useRef<HTMLDivElement>(null)
 
   const handleWatchClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -28,10 +28,11 @@ export const Screensaver = ({
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       e.preventDefault()
-      setCoordinates({
-        x: e.clientX - window.innerWidth / 2,
-        y: -(e.clientY - window.innerHeight / 2),
-      })
+      if (!layersContainerRef.current) return
+
+      layersContainerRef.current.style.transform = `rotateX(${
+        -(e.clientY - window.innerHeight / 2) / 150
+      }deg) rotateY(${(e.clientX - window.innerWidth / 2) / 150}deg)`
     }
 
     window.addEventListener('mousemove', onMouseMove)
@@ -43,15 +44,7 @@ export const Screensaver = ({
 
   return (
     <div className={styles.screensaver} onClick={closeScreensaver}>
-      <div
-        className={styles.layersContainer}
-        style={
-          {
-            '--move-x': `${coordinates.y / 150}deg`,
-            '--move-y': `${coordinates.x / 150}deg`,
-          } as React.CSSProperties
-        }
-      >
+      <div className={styles.layersContainer} ref={layersContainerRef}>
         <div
           className={`${styles.layersItem} ${styles.layer1}`}
           style={{ backgroundImage: `url(${imgLayer1})` }}
