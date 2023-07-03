@@ -32,15 +32,17 @@ interface TWeatherParams {
   gust_kph: number
 }
 
+type Error = {code: number | null, message: string}
+
 export const Weather = () => {
   const baseApiURL = 'https://api.weatherapi.com/v1/current.json?'
   const apiKey = '5fdb18f0441248dcbd2175103230906'
 
   const [weatherParams, setWeatherParams] = useState<TWeatherParams>()
-  // const [error, setError] = useState('')
+  const [error, setError] = useState<Error>()
 
-  const errorHandler = (err: string) => {
-    // setError(err)
+  const errorHandler = (err: Error) => {
+    setError(err)
     console.warn(err)
   }
 
@@ -64,11 +66,11 @@ export const Weather = () => {
             const json: { current: TWeatherParams } = await response.json()
             setWeatherParams(json.current)
           } else {
-            errorHandler('Ошибка HTTP: ' + response.status)
+            errorHandler({code: null, message: 'Ошибка HTTP: ' + response.status})
           }
         },
-        () => {
-          errorHandler('Ошибка при получении геолокации')
+        (e) => {
+          errorHandler(e)
         },
       )
     }
@@ -88,7 +90,7 @@ export const Weather = () => {
         }
       />
       <p className={styles.temperature}>
-        {weatherParams ? `${Math.round(weatherParams.temp_c)} °C` : 'loading'}
+        {error ? 'error' : weatherParams ? `${Math.round(weatherParams.temp_c)} °C` : 'loading'}
       </p>
     </div>
   )
