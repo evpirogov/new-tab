@@ -32,7 +32,7 @@ interface TWeatherParams {
   gust_kph: number
 }
 
-type Error = {code: number | null, message: string}
+type Error = { code: number | null; message: string }
 
 export const Weather = () => {
   const baseApiURL = 'https://api.weatherapi.com/v1/current.json?'
@@ -66,10 +66,13 @@ export const Weather = () => {
             const json: { current: TWeatherParams } = await response.json()
             setWeatherParams(json.current)
           } else {
-            errorHandler({code: null, message: 'Ошибка HTTP: ' + response.status})
+            errorHandler({
+              code: null,
+              message: 'Ошибка HTTP: ' + response.status,
+            })
           }
         },
-        (e) => {
+        e => {
           errorHandler(e)
         },
       )
@@ -90,7 +93,11 @@ export const Weather = () => {
         }
       />
       <p className={styles.temperature}>
-        {error ? 'error' : weatherParams ? `${Math.round(weatherParams.temp_c)} °C` : 'loading'}
+        {error
+          ? 'error'
+          : weatherParams
+          ? `${Math.round(weatherParams.temp_c)} °C`
+          : 'loading'}
       </p>
     </div>
   )
