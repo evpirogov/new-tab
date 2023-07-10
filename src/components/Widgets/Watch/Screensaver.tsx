@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import styles from './index.module.scss'
 import imgLayer1 from '../../../assets/watch/layer-1.jpg'
 import imgLayer2 from '../../../assets/watch/layer-2.png'
@@ -16,16 +16,19 @@ export const Screensaver = ({
   toggleAudio,
   closeScreensaver,
 }: TProps) => {
-  const coords = useRef({
+  const layersContainerRef = useRef<HTMLDivElement>(null)
+  const cameraParams = useRef({
+    reqId: 0,
+    timeoutId: 0,
+    isActive: false,
     mouseX: window.innerHeight / 2,
     mouseY: window.innerWidth / 2,
     cameraX: window.innerHeight / 2,
     cameraY: window.innerWidth / 2,
   })
 
-  const reqId = useRef(0)
-
-  const layersContainerRef = useRef<HTMLDivElement>(null)
+  const lerp = (start: number, end: number, t: number) =>
+    start * (1 - t) + end * t
 
   const handleWatchClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -33,46 +36,61 @@ export const Screensaver = ({
     e.stopPropagation()
     toggleAudio()
   }
-  const lerp = (start: number, end: number, t: number) =>
-    start * (1 - t) + end * t
 
-  const cameraMove = () => {
+  const cameraMove = useCallback(() => {
     if (!layersContainerRef.current) return
 
     const lerpCoef = 0.05
 
-    coords.current.cameraX = lerp(
-      coords.current.cameraX,
-      coords.current.mouseX,
+    cameraParams.current.cameraX = lerp(
+      cameraParams.current.cameraX,
+      cameraParams.current.mouseX,
       lerpCoef,
     )
-    coords.current.cameraY = lerp(
-      coords.current.cameraY,
-      coords.current.mouseY,
+    cameraParams.current.cameraY = lerp(
+      cameraParams.current.cameraY,
+      cameraParams.current.mouseY,
       lerpCoef,
     )
 
     layersContainerRef.current.style.transform = `rotateX(${
-      -(coords.current.cameraY - window.innerHeight / 2) / 150
-    }deg) rotateY(${(coords.current.cameraX - window.innerWidth / 2) / 150}deg)`
+      -(cameraParams.current.cameraY - window.innerHeight / 2) / 150
+    }deg) rotateY(${
+      (cameraParams.current.cameraX - window.innerWidth / 2) / 150
+    }deg)`
 
-    reqId.current = requestAnimationFrame(cameraMove)
-  }
+    if (cameraParams.current.isActive)
+      cameraParams.current.reqId = requestAnimationFrame(cameraMove)
+  }, [])
+
+  const mouseMoveHandler = useCallback(
+    (e: MouseEvent) => {
+      if (!layersContainerRef.current) return
+      if (!cameraParams.current.isActive) {
+        cameraParams.current.isActive = true
+        cameraMove()
+      } else {
+        cameraParams.current.mouseX = e.clientX
+        cameraParams.current.mouseY = e.clientY
+        clearTimeout(cameraParams.current.timeoutId)
+        cameraParams.current.timeoutId = setTimeout(() => {
+          cameraParams.current.isActive = false
+        }, 1500)
+      }
+    },
+    [cameraMove],
+  )
+
+  const getCurrentReqId = useCallback(() => cameraParams.current.reqId, [])
 
   useEffect(() => {
     cameraMove()
 
-    const onMouseMove = (e: MouseEvent) => {
-      if (!layersContainerRef.current) return
-      coords.current.mouseX = e.clientX
-      coords.current.mouseY = e.clientY
-    }
-
-    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mousemove', mouseMoveHandler)
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.cancelAnimationFrame(reqId.current)
+      window.removeEventListener('mousemove', mouseMoveHandler)
+      window.cancelAnimationFrame(getCurrentReqId())
     }
   })
 

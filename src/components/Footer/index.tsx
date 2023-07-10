@@ -1,6 +1,6 @@
+import styles from './index.module.scss'
 import DevSkeleton from '../DevSkeleton'
 import { Battery, Watch, Weather } from '../Widgets'
-import styles from './index.module.scss'
 
 const Footer = () => {
   return (
