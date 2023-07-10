@@ -16,6 +16,15 @@ export const Screensaver = ({
   toggleAudio,
   closeScreensaver,
 }: TProps) => {
+  const coords = useRef({
+    mouseX: window.innerHeight / 2,
+    mouseY: window.innerWidth / 2,
+    cameraX: window.innerHeight / 2,
+    cameraY: window.innerWidth / 2,
+  })
+
+  const reqId = useRef(0)
+
   const layersContainerRef = useRef<HTMLDivElement>(null)
 
   const handleWatchClick = (
@@ -24,21 +33,46 @@ export const Screensaver = ({
     e.stopPropagation()
     toggleAudio()
   }
+  const lerp = (start: number, end: number, t: number) =>
+    start * (1 - t) + end * t
+
+  const cameraMove = () => {
+    if (!layersContainerRef.current) return
+
+    const lerpCoef = 0.05
+
+    coords.current.cameraX = lerp(
+      coords.current.cameraX,
+      coords.current.mouseX,
+      lerpCoef,
+    )
+    coords.current.cameraY = lerp(
+      coords.current.cameraY,
+      coords.current.mouseY,
+      lerpCoef,
+    )
+
+    layersContainerRef.current.style.transform = `rotateX(${
+      -(coords.current.cameraY - window.innerHeight / 2) / 150
+    }deg) rotateY(${(coords.current.cameraX - window.innerWidth / 2) / 150}deg)`
+
+    reqId.current = requestAnimationFrame(cameraMove)
+  }
 
   useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      e.preventDefault()
-      if (!layersContainerRef.current) return
+    cameraMove()
 
-      layersContainerRef.current.style.transform = `rotateX(${
-        -(e.clientY - window.innerHeight / 2) / 150
-      }deg) rotateY(${(e.clientX - window.innerWidth / 2) / 150}deg)`
+    const onMouseMove = (e: MouseEvent) => {
+      if (!layersContainerRef.current) return
+      coords.current.mouseX = e.clientX
+      coords.current.mouseY = e.clientY
     }
 
     window.addEventListener('mousemove', onMouseMove)
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
+      window.cancelAnimationFrame(reqId.current)
     }
   })
 
