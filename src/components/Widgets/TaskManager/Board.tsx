@@ -50,11 +50,51 @@ Board.Header = function Header() {
   )
 }
 
-Board.Card = function Card() {
+type TCardProps = {
+  data: {
+    id: string
+    description: string
+    epic: {
+      label: string
+      name: string
+      colorScheme: {
+        mainColor: string
+        secondColor: string
+      }
+    } | null
+  }
+}
+
+Board.Card = function Card({ data }: TCardProps) {
+  const cardData = data || {
+    id: 'hasd8f',
+    description:
+      'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне.',
+    epic: {
+      label: 'Some epic',
+      name: 'epic',
+      colorScheme: {
+        mainColor: 'red',
+        secondColor: 'pink',
+      },
+    },
+  }
+
   return (
     <div className={styles.card}>
-      <div className={styles.description}>Description</div>
-      <div className={styles.epic}>- epic</div>
+      <p className={styles.description}>{cardData.description}</p>
+      {cardData.epic && (
+        <div
+          className={styles.epic}
+          style={{
+            color: cardData.epic.colorScheme.mainColor,
+            boxShadow: `inset 0 0 0 1px ${cardData.epic.colorScheme.mainColor}`,
+            backgroundColor: cardData.epic.colorScheme.secondColor,
+          }}
+        >
+          {cardData.epic.label}
+        </div>
+      )}
     </div>
   )
 }
