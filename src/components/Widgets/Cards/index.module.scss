@@ -16,123 +16,123 @@
 
     color: #666;
   }
+}
 
-  .cardEditModal {
-    display: block;
+.cardEditModal {
+  display: block;
 
-    width: 320px;
-    padding: 8px;
+  width: 320px;
+  padding: 8px;
 
-    background-color: #eee;
-    border-radius: 8px;
+  background-color: #eee;
+  border-radius: 8px;
 
-    .cardHeader {
-      padding-left: 6px;
-      font-size: 20px;
+  .cardHeader {
+    padding-left: 6px;
+    font-size: 20px;
+  }
+
+  .cardForm {
+    .inputSection {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 12px;
+
+      input {
+        padding: 6px;
+        border-radius: 4px;
+      }
     }
 
-    .cardForm {
-      .inputSection {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
+    .info {
+      margin-top: 12px;
+      padding: 0 6px;
+
+      font-size: 12px;
+      font-weight: 100;
+      color: grey;
+
+      a {
+        text-decoration: underline;
+      }
+    }
+
+    .dropdownLinks {
+      margin-top: 16px;
+
+      .dropdownLinksHeader {
+        padding-left: 6px;
+        font-size: 16px;
+      }
+
+      .dropdownList {
+        overflow-y: scroll;
+        max-height: 320px;
+
+        .dropdownItem {
+          position: relative;
+
+          .removeIcon {
+            pointer-events: none;
+          }
+
+          .removeButton {
+            cursor: pointer;
+
+            position: absolute;
+            top: 2px;
+            right: 2px;
+
+            display: none;
+            align-items: center;
+
+            padding: 4px 2px;
+
+            color: red;
+
+            background-color: #ddd;
+            border-radius: 2px;
+          }
+
+          &:hover {
+            .removeButton {
+              display: flex;
+            }
+          }
+        }
+      }
+
+      .handlerSection {
         margin-top: 12px;
 
-        input {
-          padding: 6px;
+        .addItemButton {
+          width: 100%;
+          padding: 6px 0;
+
+          color: #fff;
+
+          background-color: #3775a4;
           border-radius: 4px;
         }
-      }
 
-      .info {
-        margin-top: 12px;
-        padding: 0 6px;
+        .dropdownItemChangeButtons {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          margin-top: 8px;
 
-        font-size: 12px;
-        font-weight: 100;
-        color: grey;
-
-        a {
-          text-decoration: underline;
-        }
-      }
-
-      .dropdownLinks {
-        margin-top: 16px;
-
-        .dropdownLinksHeader {
-          padding-left: 6px;
-          font-size: 16px;
-        }
-
-        .dropdownList {
-          overflow-y: scroll;
-          max-height: 320px;
-
-          .dropdownItem {
-            position: relative;
-
-            .removeIcon {
-              pointer-events: none;
-            }
-
-            .removeButton {
-              cursor: pointer;
-
-              position: absolute;
-              top: 2px;
-              right: 2px;
-
-              display: none;
-              align-items: center;
-
-              padding: 4px 2px;
-
-              color: red;
-
-              background-color: #ddd;
-              border-radius: 2px;
-            }
-
-            &:hover {
-              .removeButton {
-                display: flex;
-              }
-            }
-          }
-        }
-
-        .handlerSection {
-          margin-top: 12px;
-
-          .addItemButton {
-            width: 100%;
-            padding: 6px 0;
-
+          button {
+            padding: 6px;
             color: #fff;
-
-            background-color: #3775a4;
             border-radius: 4px;
-          }
 
-          .dropdownItemChangeButtons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
+            &.removeItemButton {
+              background-color: #ad4444;
+            }
 
-            button {
-              padding: 6px;
-              color: #fff;
-              border-radius: 4px;
-
-              &.removeItemButton {
-                background-color: #ad4444;
-              }
-
-              &.applyItemButton {
-                background-color: #297a29;
-              }
+            &.applyItemButton {
+              background-color: #297a29;
             }
           }
         }

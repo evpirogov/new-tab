@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './index.module.scss'
 
 type TProps = {
@@ -8,22 +9,23 @@ type TProps = {
 }
 
 export const Modal = ({ children, isOpen, setOpen }: TProps) => {
-  return (
-    isOpen && (
+  if (!isOpen) return null
+
+  return createPortal(
+    <div
+      className={styles.modalBackdrop}
+      onClick={() => {
+        setOpen(false)
+      }}
+    >
       <div
-        className={styles.modalBackdrop}
-        onClick={() => {
-          setOpen(false)
+        onClick={e => {
+          e.stopPropagation()
         }}
       >
-        <div
-          onClick={e => {
-            e.stopPropagation()
-          }}
-        >
-          {children}
-        </div>
+        {children}
       </div>
-    )
+    </div>,
+    document.getElementById('modal-root') as HTMLElement,
   )
 }
