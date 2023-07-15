@@ -1,4 +1,6 @@
 .modalBackdrop {
+  pointer-events: all;
+
   position: absolute;
   z-index: 10;
   top: 0;
