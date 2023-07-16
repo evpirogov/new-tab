@@ -11,17 +11,21 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import bookmarks from './bookmarkSlice'
+import board from './bordSlice'
+import drag from './dragSlice'
 import modes from './modeSlice'
 
 const rootReducer = combineReducers({
   bookmarks,
   modes,
+  drag,
+  board,
 })
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['modes'],
+  blacklist: ['modes', 'drag', 'board'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
