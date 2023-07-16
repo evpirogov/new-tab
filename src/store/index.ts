@@ -10,8 +10,13 @@ import {
   persistStore,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+<<<<<<< HEAD
 import bookmarks from './bookmarkSlice'
 import board from './bordSlice'
+=======
+import board from './bordSlice'
+import cards from './cardSlice'
+>>>>>>> 74554d2 (chore(TaskManager): temporary commit)
 import drag from './dragSlice'
 import modes from './modeSlice'
 
