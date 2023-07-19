@@ -1,40 +1,40 @@
 import { TrashIcon } from '@radix-ui/react-icons'
 import { ChangeEvent, MouseEvent, useReducer } from 'react'
 import { ValidActionTypes, reducer } from './store'
-import { ICard } from '../../types'
+import { IBookmark } from '../../types'
 import styles from '../../index.module.scss'
 
 type TProps = {
-  cardState?: ICard
+  initialState?: IBookmark
   formType: 'edit' | 'create'
-  submitHandler: (cardState: ICard) => void
-  removeCardHandler: (cardId: string) => void
+  submitHandler: (initialState: IBookmark) => void
+  removeBookmarkHandler: (bookmarkId: string) => void
 }
 
-export const CardForm = ({
-  cardState,
+export const BookmarkForm = ({
+  initialState,
   formType,
   submitHandler,
-  removeCardHandler,
+  removeBookmarkHandler,
 }: TProps) => {
-  const initialState: ICard = cardState || {
+  initialState = initialState || {
     // Формировать id на клиенте не очень хорошо.
-    // Но в противном случае придется делать отжельный тип Omit<iCard, 'id'> - что не кайф
-    // Чтобы не бвло путанницы: тут добавил префикс 'tempId', а в reducers.addCard перезаписываю id
+    // Но в противном случае придется делать отжельный тип Omit<IBookmark, 'id'> - что не кайф
+    // Чтобы не бвло путанницы: тут добавил префикс 'tempId', а в reducers.addBookmark перезаписываю id
     id: `tempId_${Math.random().toString(32).substring(2)}`,
     mainHref: '',
     mainImageUrl: '',
     mainImageSize: '',
-    dropdownLinks: [],
+    dropdownLinks: null,
   }
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const handleChangeCardMainValues = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeBookmarkMainValues = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
 
     dispatch({
-      type: ValidActionTypes.ChangeCardMainValues,
+      type: ValidActionTypes.ChangeBookmarkMainValues,
       name,
       value,
     })
@@ -64,15 +64,15 @@ export const CardForm = ({
     })
   }
 
-  const handleDeleteCard = () => {
-    removeCardHandler(state.id)
+  const handleDeleteBookmark = () => {
+    removeBookmarkHandler(state.id)
   }
 
   return (
-    <div className={styles.cardEditModal}>
-      <h2 className={styles.cardHeader}>Карточка</h2>
+    <div className={styles.bookmarkEditModal}>
+      <h2 className={styles.bookmarkHeader}>Карточка</h2>
       <form
-        className={styles.cardForm}
+        className={styles.bookmarkForm}
         onSubmit={e => {
           e.preventDefault()
           submitHandler(state)
@@ -85,21 +85,21 @@ export const CardForm = ({
             value={state.mainHref}
             type="text"
             placeholder="Ссылка на вкладку"
-            onChange={handleChangeCardMainValues}
+            onChange={handleChangeBookmarkMainValues}
           />
           <input
             name="mainImageUrl"
             value={state.mainImageUrl}
             type="text"
             placeholder="Ссылка на картинку (желательно *.png)"
-            onChange={handleChangeCardMainValues}
+            onChange={handleChangeBookmarkMainValues}
           />
           <input
             name="mainImageSize"
             value={state.mainImageSize}
             type="text"
             placeholder="Размер картинки в процентах"
-            onChange={handleChangeCardMainValues}
+            onChange={handleChangeBookmarkMainValues}
           />
         </div>
         <p className={styles.info}>
@@ -112,37 +112,38 @@ export const CardForm = ({
         <div className={styles.dropdownLinks}>
           <h3 className={styles.dropdownLinksHeader}>Выпадающий список</h3>
           <ol className={styles.dropdownList}>
-            {state.dropdownLinks.map((e, i) => (
-              <li
-                key={i}
-                className={`${styles.dropdownItem} ${styles.inputSection}`}
-              >
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Название"
-                  value={e.title}
-                  data-item-order-id={i}
-                  onChange={handleChangeDropdownItem}
-                />
-                <input
-                  type="text"
-                  name="link"
-                  placeholder="Ссылка"
-                  value={e.link}
-                  data-item-order-id={i}
-                  onChange={handleChangeDropdownItem}
-                />
-                <button
-                  type="button"
-                  className={styles.removeButton}
-                  data-item-order-id={i}
-                  onClick={handleDeleteDropdownItem}
+            {state.dropdownLinks &&
+              state.dropdownLinks.map((e, i) => (
+                <li
+                  key={i}
+                  className={`${styles.dropdownItem} ${styles.inputSection}`}
                 >
-                  <TrashIcon className={styles.removeIcon} />
-                </button>
-              </li>
-            ))}
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Название"
+                    value={e.title}
+                    data-item-order-id={i}
+                    onChange={handleChangeDropdownItem}
+                  />
+                  <input
+                    type="text"
+                    name="link"
+                    placeholder="Ссылка"
+                    value={e.link}
+                    data-item-order-id={i}
+                    onChange={handleChangeDropdownItem}
+                  />
+                  <button
+                    type="button"
+                    className={styles.removeButton}
+                    data-item-order-id={i}
+                    onClick={handleDeleteDropdownItem}
+                  >
+                    <TrashIcon className={styles.removeIcon} />
+                  </button>
+                </li>
+              ))}
           </ol>
           <div className={styles.handlerSection}>
             <button
@@ -159,7 +160,7 @@ export const CardForm = ({
                   className={styles.removeItemButton}
                   onClick={e => {
                     e.preventDefault()
-                    handleDeleteCard()
+                    handleDeleteBookmark()
                   }}
                 >
                   Удалить карточку

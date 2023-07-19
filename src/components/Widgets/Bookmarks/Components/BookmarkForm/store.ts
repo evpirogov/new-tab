@@ -1,7 +1,7 @@
-import { ICard, TDropdownItem } from '../../types'
+import { IBookmark, TDropdownItem } from '../../types'
 
 export enum ValidActionTypes {
-  ChangeCardMainValues = 'CHANGE_CARD_MAIN_VALUES',
+  ChangeBookmarkMainValues = 'CHANGE_BOOKMARK_MAIN_VALUES',
   AddDropdownItem = 'ADD_DROPDOWN_ITEM',
   ChangeDropdownItem = 'CHANGE_DROPDOWN_ITEM',
   DeleteDropdownItem = 'DELETE_DROPDOWN_ITEM',
@@ -9,7 +9,7 @@ export enum ValidActionTypes {
 
 type Action =
   | {
-      type: ValidActionTypes.ChangeCardMainValues
+      type: ValidActionTypes.ChangeBookmarkMainValues
       name: string
       value: string
     }
@@ -35,21 +35,24 @@ const createDropdownItem = () => {
   } as TDropdownItem
 }
 
-export const reducer = (state: ICard, action: Action) => {
+export const reducer = (state: IBookmark, action: Action): IBookmark => {
   switch (action.type) {
-    case ValidActionTypes.ChangeCardMainValues:
+    case ValidActionTypes.ChangeBookmarkMainValues:
       return {
         ...state,
         [action.name]: action.value,
       }
 
-    case ValidActionTypes.AddDropdownItem:
+    case ValidActionTypes.AddDropdownItem:{
+      const dropdownLinks = state.dropdownLinks ? [...state.dropdownLinks, createDropdownItem()] : [createDropdownItem()]
+
       return {
         ...state,
-        dropdownLinks: [...state.dropdownLinks, createDropdownItem()],
-      }
+        dropdownLinks,
+      }}
 
     case ValidActionTypes.ChangeDropdownItem:
+      if (!state.dropdownLinks) return state
       return {
         ...state,
         dropdownLinks: state.dropdownLinks.map((e, i) =>
@@ -62,7 +65,7 @@ export const reducer = (state: ICard, action: Action) => {
         ),
       }
     case ValidActionTypes.DeleteDropdownItem:
-      console.log(action.id)
+      if (!state.dropdownLinks) return state
 
       return {
         ...state,

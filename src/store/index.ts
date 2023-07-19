@@ -10,11 +10,11 @@ import {
   persistStore,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import cards from './cardSlice'
+import bookmarks from './bookmarkSlice'
 import modes from './modeSlice'
 
 const rootReducer = combineReducers({
-  cards,
+  bookmarks,
   modes,
 })
 

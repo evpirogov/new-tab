@@ -1,5 +1,5 @@
 import Footer from './components/Footer'
-import { Cards, TaskManager, TopLinks } from './components/Widgets'
+import { Bookmarks, TaskManager, TopLinks } from './components/Widgets'
 import Layout from './components/_Layout'
 
 const App = () => {
@@ -7,7 +7,7 @@ const App = () => {
     <Layout>
       <Footer />
       <TopLinks />
-      <Cards />
+      <Bookmarks />
       <TaskManager />
     </Layout>
   )

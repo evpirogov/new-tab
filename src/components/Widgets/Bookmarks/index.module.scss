@@ -1,10 +1,10 @@
-.cards {
+.bookmarks {
   display: grid;
   grid-gap: 32px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   margin-top: 20px;
 
-  .addNewCard {
+  .addNewBookmark {
     display: flex;
     gap: 12px;
     align-items: center;
@@ -18,7 +18,7 @@
   }
 }
 
-.cardEditModal {
+.bookmarkEditModal {
   display: block;
 
   width: 320px;
@@ -27,12 +27,12 @@
   background-color: #eee;
   border-radius: 8px;
 
-  .cardHeader {
+  .bookmarkHeader {
     padding-left: 6px;
     font-size: 20px;
   }
 
-  .cardForm {
+  .bookmarkForm {
     .inputSection {
       display: flex;
       flex-direction: column;
