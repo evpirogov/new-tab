@@ -171,7 +171,7 @@ Board.Card = function Card({ data }: TCardProps) {
   return (
     <div className={styles.card} onMouseDown={onMouseDownHandler}>
       <p className={styles.description}>{data.description}</p>
-      {data.epic && (
+      {/* {data.epic && (
         <div
           className={styles.epic}
           style={{
@@ -181,7 +181,7 @@ Board.Card = function Card({ data }: TCardProps) {
         >
           {data.epic.label}
         </div>
-      )}
+      )} */}
       <div
         className={styles.priorityRibbon}
         style={{
@@ -193,6 +193,7 @@ Board.Card = function Card({ data }: TCardProps) {
 }
 
 Board.CardAvatar = (() => {
+  const { cards } = useAppSelector(state => state.board)
   const { avatar, dragCandidate } = useAppSelector(state => state.drag)
 
   if (!avatar || !dragCandidate) return
@@ -215,7 +216,7 @@ Board.CardAvatar = (() => {
         opacity: '0.7',
       }}
     >
-      <Board.Card />
+      <Board.Card data={cards[0]} />
     </div>
   )
 }) as React.FC
