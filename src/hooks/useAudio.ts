@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export const useAudio = (url: string) => {
-  const [audio] = useState(new Audio(url))
+export const useAudio = (source: string, loop = true) => {
+  const [audio] = useState(new Audio(source))
   const [playingAudio, setPlayingAudio] = useState(false)
 
   const toggleAudio = () => setPlayingAudio(!playingAudio)
@@ -12,11 +12,11 @@ export const useAudio = (url: string) => {
 
   useEffect(() => {
     audio.addEventListener('ended', () => setPlayingAudio(false))
-    audio.loop = true
+    audio.loop = loop
     return () => {
       audio.removeEventListener('ended', () => setPlayingAudio(false))
     }
-  }, [audio])
+  }, [audio, loop])
 
   return { playingAudio, toggleAudio }
 }
