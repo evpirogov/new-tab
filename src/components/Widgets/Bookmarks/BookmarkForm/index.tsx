@@ -1,8 +1,8 @@
 import { TrashIcon } from '@radix-ui/react-icons'
 import { ChangeEvent, MouseEvent, useReducer } from 'react'
 import { ValidActionTypes, reducer } from './store'
-import { IBookmark } from '../../types'
-import styles from '../../index.module.scss'
+import { IBookmark } from '../types'
+import styles from '../index.module.scss'
 
 type TProps = {
   initialState?: IBookmark
@@ -70,7 +70,7 @@ export const BookmarkForm = ({
 
   return (
     <div className={styles.bookmarkEditModal}>
-      <h2 className={styles.bookmarkHeader}>Карточка</h2>
+      <h2 className={styles.bookmarkHeader}>Закладка</h2>
       <form
         className={styles.bookmarkForm}
         onSubmit={e => {

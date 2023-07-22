@@ -1,7 +1,7 @@
 import { Pencil2Icon } from '@radix-ui/react-icons'
-import { selectMode } from '../../../../../store/modeSlice'
-import { useAppSelector } from '../../../../../hooks'
-import { IBookmark } from '../../types'
+import { selectMode } from '../../../../store/modeSlice'
+import { useAppSelector } from '../../../../hooks'
+import { IBookmark } from '../types'
 import styles from './index.module.scss'
 
 interface IProps extends IBookmark {

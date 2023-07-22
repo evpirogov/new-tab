@@ -11,4 +11,3 @@ export interface IBookmark {
   mainImageSize: string
   dropdownLinks: TDropdownItem[] | null
 }
-

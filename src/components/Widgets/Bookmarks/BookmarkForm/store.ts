@@ -1,4 +1,4 @@
-import { IBookmark, TDropdownItem } from '../../types'
+import { IBookmark, TDropdownItem } from '../types'
 
 export enum ValidActionTypes {
   ChangeBookmarkMainValues = 'CHANGE_BOOKMARK_MAIN_VALUES',
@@ -43,13 +43,16 @@ export const reducer = (state: IBookmark, action: Action): IBookmark => {
         [action.name]: action.value,
       }
 
-    case ValidActionTypes.AddDropdownItem:{
-      const dropdownLinks = state.dropdownLinks ? [...state.dropdownLinks, createDropdownItem()] : [createDropdownItem()]
+    case ValidActionTypes.AddDropdownItem: {
+      const dropdownLinks = state.dropdownLinks
+        ? [...state.dropdownLinks, createDropdownItem()]
+        : [createDropdownItem()]
 
       return {
         ...state,
         dropdownLinks,
-      }}
+      }
+    }
 
     case ValidActionTypes.ChangeDropdownItem:
       if (!state.dropdownLinks) return state

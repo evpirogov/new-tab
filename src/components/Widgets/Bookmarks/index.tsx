@@ -7,10 +7,11 @@ import {
   selectBookmarks,
 } from '../../../store/bookmarkSlice'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
-import { Bookmark, BookmarkForm } from './Components'
 import type { IBookmark } from './types'
 import styles from './index.module.scss'
 import { Modal } from '../../Modal'
+import { Bookmark } from './Bookmark'
+import { BookmarkForm } from './BookmarkForm'
 
 export const Bookmarks = () => {
   const dispatch = useAppDispatch()
