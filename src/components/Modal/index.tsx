@@ -12,19 +12,14 @@ export const Modal = ({ children, isOpen, setOpen }: TProps) => {
   if (!isOpen) return null
 
   return createPortal(
-    <div
-      className={styles.modalBackdrop}
-      onClick={() => {
-        setOpen(false)
-      }}
-    >
+    <div className={styles.modalContainer}>
+      <div className={styles.modalContent}>{children}</div>
       <div
-        onClick={e => {
-          e.stopPropagation()
+        className={styles.modalBackdrop}
+        onClick={() => {
+          setOpen(false)
         }}
-      >
-        {children}
-      </div>
+      />
     </div>,
     document.getElementById('modal-root') as HTMLElement,
   )
