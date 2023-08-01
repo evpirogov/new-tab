@@ -3,6 +3,7 @@ import { ChangeEvent, MouseEvent, useReducer } from 'react'
 import { ValidActionTypes, reducer } from './store'
 import { IBookmark } from '../types'
 import styles from '../index.module.scss'
+import { generateRandomId } from '../../../../utils'
 
 type TProps = {
   initialState?: IBookmark
@@ -21,7 +22,7 @@ export const BookmarkForm = ({
     // Формировать id на клиенте не очень хорошо.
     // Но в противном случае придется делать отжельный тип Omit<IBookmark, 'id'> - что не кайф
     // Чтобы не бвло путанницы: тут добавил префикс 'tempId', а в reducers.addBookmark перезаписываю id
-    id: `tempId_${Math.random().toString(32).substring(2)}`,
+    id: `tempId_${generateRandomId()}`,
     mainHref: '',
     mainImageUrl: '',
     mainImageSize: '',

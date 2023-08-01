@@ -27,8 +27,6 @@ export const Bookmark = ({
     backgroundSize: mainImageSize ? `${mainImageSize}%` : 'cover',
   }
 
-  console.log(id)
-
   return (
     <div className={styles.bookmark} style={bookmarkStyle}>
       {
@@ -44,8 +42,8 @@ export const Bookmark = ({
       )}
       {dropdownLinks && (
         <ol className={styles.dropdown}>
-          {dropdownLinks.map(e => (
-            <li key={e.link} className={styles.dropdownItem}>
+          {dropdownLinks.map((e, i) => (
+            <li key={e.link + e.title + i} className={styles.dropdownItem}>
               {e.iconUrl && <img src={e.iconUrl} />}
               <a href={e.link}>{e.title}</a>
             </li>
