@@ -1,6 +1,10 @@
+import { selectMode } from '../../../store/modeSlice'
+import { useAppSelector } from '../../../hooks'
 import styles from './index.module.scss'
 
 export const TopLinks = () => {
+  const { devMode } = useAppSelector(state => selectMode(state))
+
   const mockData = [
     {
       title: 'sheets.new',
@@ -22,13 +26,15 @@ export const TopLinks = () => {
   ]
 
   return (
-    <div className={styles.toplinks}>
-      {mockData.map(e => (
-        <a key={e.url} href={e.url} className={styles.linkItem}>
-          <img className={styles.linkItemIcon} src={e.favIconUrl} />
-          <span className={styles.linkItemText}>{e.title}</span>
-        </a>
-      ))}
-    </div>
+    devMode && (
+      <div className={styles.toplinks}>
+        {mockData.map(e => (
+          <a key={e.url} href={e.url} className={styles.linkItem}>
+            <img className={styles.linkItemIcon} src={e.favIconUrl} />
+            <span className={styles.linkItemText}>{e.title}</span>
+          </a>
+        ))}
+      </div>
+    )
   )
 }
