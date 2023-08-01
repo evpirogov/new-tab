@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['modes', 'drag', 'board'],
+  blacklist: ['modes', 'drag'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -11,21 +11,22 @@ export type TElementSize = {
   height: number
 }
 
-type TDragCandidate = {
+export type TDragCandidate = {
   type: string
+  id: string
   position: TElementPosition
   clickCoords: TElementPosition
   size: TElementSize
-} | null
+}
 
-type TAvatar = {
+export type TAvatar = {
   position: TElementPosition
-} | null
+}
 
 type TDrag = {
   dragInProgress: boolean
-  dragCandidate: TDragCandidate
-  avatar: TAvatar
+  dragCandidate: TDragCandidate | null
+  avatar: TAvatar | null
 }
 
 const initialState: TDrag = {
@@ -51,7 +52,6 @@ export const dragSlice = createSlice({
     },
     completeDrag: state => {
       state = {
-        ...state,
         dragInProgress: false,
         avatar: null,
         dragCandidate: null,
@@ -64,5 +64,7 @@ export const dragSlice = createSlice({
 export const { setDragCandidate, setAvatar, setAvatarPosition, completeDrag } =
   dragSlice.actions
 export const selectDrag = (state: RootState) => state.drag
+export const selectDragCandidate = (state: RootState) =>
+  state.drag.dragCandidate
 
 export default dragSlice.reducer
